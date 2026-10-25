@@ -26,3 +26,10 @@
 - Number formats support the documented brace tokens and bracket aliases for compatibility.
 - Owner bootstrap seeds Rent, Late fee, and Security deposit and four default numbering sequences idempotently.
 - Lookup settings use a compact shared CRUD screen; system charge types cannot be deleted.
+
+## Phase 4
+
+- Lease activation sets `next_invoice_date` to the lease start date; invoice generation remains Phase 5.
+- Billing day validation accepts 0 for month end and 1 through 28 for explicit days.
+- Termination always sets the unit vacant and preserves historical charge rows.
+- Tenant and lease documents use the private local disk and owner authorization.

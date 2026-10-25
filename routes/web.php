@@ -1,11 +1,14 @@
 <?php
 
+use App\Http\Controllers\AttachmentController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BuildingController;
 use App\Http\Controllers\InstallController;
+use App\Http\Controllers\LeaseController;
 use App\Http\Controllers\LookupController;
 use App\Http\Controllers\PropertyController;
 use App\Http\Controllers\SettingsController;
+use App\Http\Controllers\TenantController;
 use App\Http\Controllers\UnitController;
 use Illuminate\Support\Facades\Route;
 
@@ -26,6 +29,12 @@ Route::middleware('installed')->group(function () {
             Route::get('/lookups/{type}', [LookupController::class, 'index'])->name('lookups.index');
             Route::post('/lookups/{type}', [LookupController::class, 'store'])->name('lookups.store');
             Route::delete('/lookups/{type}/{id}', [LookupController::class, 'destroy'])->name('lookups.destroy');
+            Route::resource('tenants', TenantController::class);
+            Route::post('tenants/{tenant}/document', [TenantController::class, 'document'])->name('tenants.document');
+            Route::resource('leases', LeaseController::class)->only(['index', 'create', 'store', 'show']);
+            Route::post('leases/{lease}/activate', [LeaseController::class, 'activate'])->name('leases.activate');
+            Route::post('leases/{lease}/change-rent', [LeaseController::class, 'changeRent'])->name('leases.change-rent');
+            Route::post('leases/{lease}/terminate', [LeaseController::class, 'terminate'])->name('leases.terminate');
             Route::resource('properties', PropertyController::class)->except(['show']);
             Route::get('properties/{property}', [PropertyController::class, 'show'])->name('properties.show');
             Route::get('properties/{property}/buildings/create', [BuildingController::class, 'create'])->name('buildings.create');
@@ -48,5 +57,6 @@ Route::middleware('installed')->group(function () {
             Route::put('/branding', [SettingsController::class, 'updateBranding'])->name('branding.update');
         });
         Route::view('/portal', 'dashboard', ['area' => 'portal'])->middleware('role:tenant')->name('portal.dashboard');
+        Route::get('/attachments/{attachment}', [AttachmentController::class, 'show'])->name('attachments.show');
     });
 });

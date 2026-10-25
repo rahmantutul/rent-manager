@@ -27,3 +27,7 @@ Implementation complete on branch `phase-2`; awaiting the user's acceptance gate
 ## Phase 3 — Money core and lookups (2026-10-25)
 
 Implemented Money, lookup tables, numbering service/bootstrap command, lookup settings routes, and Phase 3 tests. SQLite suite: 32 passed, 182 assertions, one existing output-buffer warning.
+
+## Phase 4 - Tenants and leases - 2026-10-25
+
+Implemented tenant records, encrypted ID numbers, private attachments, leases, recurring charges, lifecycle actions, policies, screens, and owner-isolation tests. SQLite suite: 37 passed, 203 assertions.

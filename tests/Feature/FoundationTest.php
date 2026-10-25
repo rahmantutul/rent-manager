@@ -231,7 +231,7 @@ class FoundationTest extends TestCase
         $this->assertSame(['id', 'name', 'email', 'phone', 'currency_code', 'minor_units', 'timezone', 'locale', 'date_format', 'logo_path', 'status'], Schema::getColumnListing('owners'));
         $this->assertSame(['id', 'owner_id', 'tenant_id', 'name', 'email', 'password', 'role', 'permissions', 'locale', 'is_active', 'last_login_at'], Schema::getColumnListing('users'));
         $this->assertSame(['id', 'owner_id', 'key', 'value'], Schema::getColumnListing('settings'));
-        $this->assertSame(['owner_id'], array_merge(...array_column(Schema::getForeignKeys('users'), 'columns')));
+        $this->assertEqualsCanonicalizing(['owner_id', 'tenant_id'], array_merge(...array_column(Schema::getForeignKeys('users'), 'columns')));
     }
 
     public function test_existing_database_is_rejected_without_environment_mutation(): void
