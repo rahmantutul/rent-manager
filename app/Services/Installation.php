@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Validation\ValidationException;
 use PDO;
+use PDOException;
 use RuntimeException;
 use Throwable;
 
@@ -38,8 +39,8 @@ class Installation
     {
         try {
             new PDO('mysql:host='.$data['db_host'].';port='.$data['db_port'].';dbname='.$data['db_database'].';charset=utf8mb4', $data['db_username'], $data['db_password'] ?? '', [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, PDO::ATTR_TIMEOUT => 5]);
-        } catch (Throwable) {
-            throw ValidationException::withMessages(['db_database' => __('app.database_failed')]);
+        } catch (PDOException $exception) {
+            throw ValidationException::withMessages(['db_database' => $exception->getMessage()]);
         }
         config(['database.default' => 'mysql']);
         config(['database.connections.mysql.host' => $data['db_host'], 'database.connections.mysql.port' => $data['db_port'], 'database.connections.mysql.database' => $data['db_database'], 'database.connections.mysql.username' => $data['db_username'], 'database.connections.mysql.password' => $data['db_password'] ?? '', 'database.connections.mysql.url' => null]);

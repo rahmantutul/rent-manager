@@ -51,6 +51,7 @@ return [
     'install' => 'Set up your workspace',
     'setup' => 'Installation',
     'install_intro' => 'Connect your database and create the first owner account.',
+    'server_step' => 'Server', 'database_step' => 'Database', 'account_step' => 'Account', 'mail_helper' => 'Log only is fine for now. You can configure SMTP later in Admin settings.', 'installing' => 'Installing?',
     'requirements' => 'Server requirements',
     'php_version' => 'PHP version: :version',
     'passed' => 'Passed',
