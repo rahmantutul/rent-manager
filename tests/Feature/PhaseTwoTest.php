@@ -35,17 +35,25 @@ class PhaseTwoTest extends TestCase
 
     public function test_building_and_unit_crud(): void
     {
-        $this->actingAs($user = $this->ownerUser());
-        $property = Property::factory()->create();
-        $building = $property->buildings()->create(['name' => 'Block B', 'floors_count' => 10]);
-        $unit = $building->units()->create(['unit_number' => '3A', 'floor_level' => 3, 'unit_type' => 'apartment', 'default_rent' => 120000, 'status' => 'vacant']);
-        $this->assertSame('Floor 3', $unit->fresh()->floor_label);
-        $this->get('/admin/buildings/'.$building->id.'/units')->assertOk()->assertSee('3A')->assertSee('Floor 3');
-        $this->put('/admin/units/'.$unit->id, ['building_id' => $building->id, 'unit_number' => '3A', 'floor_level' => 3, 'unit_type' => 'apartment', 'default_rent' => 130000, 'status' => 'maintenance'])->assertRedirect();
-        $this->assertDatabaseHas('units', ['id' => $unit->id, 'status' => 'maintenance', 'default_rent' => 130000]);
-        $this->delete('/admin/units/'.$unit->id)->assertRedirect();
-        $this->assertSoftDeleted('units', ['id' => $unit->id]);
-        $this->assertSame($user->owner_id, $building->owner_id);
+        $bufferLevel = ob_get_level();
+
+        try {
+            $this->actingAs($user = $this->ownerUser());
+            $property = Property::factory()->create();
+            $building = $property->buildings()->create(['name' => 'Block B', 'floors_count' => 10]);
+            $unit = $building->units()->create(['unit_number' => '3A', 'floor_level' => 3, 'unit_type' => 'apartment', 'default_rent' => 120000, 'status' => 'vacant']);
+            $this->assertSame('Floor 3', $unit->fresh()->floor_label);
+            $this->get('/admin/buildings/'.$building->id.'/units')->assertOk()->assertSee('3A')->assertSee('Floor 3');
+            $this->put('/admin/units/'.$unit->id, ['building_id' => $building->id, 'unit_number' => '3A', 'floor_level' => 3, 'unit_type' => 'apartment', 'default_rent' => 130000, 'status' => 'maintenance'])->assertRedirect();
+            $this->assertDatabaseHas('units', ['id' => $unit->id, 'status' => 'maintenance', 'default_rent' => 130000]);
+            $this->delete('/admin/units/'.$unit->id)->assertRedirect();
+            $this->assertSoftDeleted('units', ['id' => $unit->id]);
+            $this->assertSame($user->owner_id, $building->owner_id);
+        } finally {
+            while (ob_get_level() > $bufferLevel) {
+                ob_end_clean();
+            }
+        }
     }
 
     public function test_bulk_generation_numbers_counts_and_clashes_are_atomic(): void
