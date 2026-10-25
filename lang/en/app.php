@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'tenants' => 'Tenants', 'tenant' => 'Tenant', 'leases' => 'Leases', 'lease' => 'Lease', 'charges' => 'Charges', 'create' => 'Create', 'edit' => 'Edit', 'search' => 'Search', 'upload' => 'Upload', 'activate' => 'Activate', 'terminate' => 'Terminate', 'lease_unit_active' => 'This unit already has an active lease.',
+    'tenants' => 'Tenants', 'invoices' => 'Invoices', 'tenant' => 'Tenant', 'leases' => 'Leases', 'lease' => 'Lease', 'charges' => 'Charges', 'create' => 'Create', 'edit' => 'Edit', 'search' => 'Search', 'upload' => 'Upload', 'activate' => 'Activate', 'terminate' => 'Terminate', 'lease_unit_active' => 'This unit already has an active lease.',
     'save' => 'Save', 'delete' => 'Delete', 'charge-types' => 'Charge types', 'tax-rates' => 'Tax rates', 'late-fee-rules' => 'Late fee rules', 'numbering' => 'Numbering',
     'login' => 'Sign in',
     'welcome' => 'Welcome back',

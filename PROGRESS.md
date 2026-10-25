@@ -31,3 +31,7 @@ Implemented Money, lookup tables, numbering service/bootstrap command, lookup se
 ## Phase 4 - Tenants and leases - 2026-10-25
 
 Implemented tenant records, encrypted ID numbers, private attachments, leases, recurring charges, lifecycle actions, policies, screens, and owner-isolation tests. SQLite suite: 37 passed, 203 assertions.
+
+## Phase 5 - Invoice engine - 2026-10-25
+
+Implemented invoice and invoice-line schema, recurring generation service and command, catch-up, proration, tax snapshots, idempotency, event dispatch, minimal invoice screens, and exact arithmetic tests. SQLite suite: 40 passed, 213 assertions.

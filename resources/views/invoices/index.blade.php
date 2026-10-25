@@ -1,0 +1,1 @@
+@extends('layouts.admin') @section('content')<h1>{{ __('app.invoices') }}</h1><table>@foreach($invoices as $invoice)<tr><td><a href="{{ route('admin.invoices.show',$invoice) }}">{{ $invoice->invoice_number }}</a></td><td>{{ $invoice->total }}</td><td>{{ $invoice->status }}</td></tr>@endforeach</table>{{ $invoices->links() }}@endsection

@@ -1,0 +1,1 @@
+@extends('layouts.admin') @section('content')<h1>{{ $invoice->invoice_number }}</h1><p>{{ $invoice->period_start }} - {{ $invoice->period_end }}</p><table>@foreach($invoice->lines as $line)<tr><td>{{ $line->description }}</td><td>{{ $line->line_subtotal }}</td><td>{{ $line->tax_amount }}</td><td>{{ $line->line_total }}</td></tr>@endforeach</table>@endsection

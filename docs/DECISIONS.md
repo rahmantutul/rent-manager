@@ -33,3 +33,9 @@
 - Billing day validation accepts 0 for month end and 1 through 28 for explicit days.
 - Termination always sets the unit vacant and preserves historical charge rows.
 - Tenant and lease documents use the private local disk and owner authorization.
+
+## Phase 5
+
+- Invoice periods use the lease pointer as the period start; first-period proration uses the full calendar cycle as denominator.
+- Catch-up is capped at 36 generated periods per lease per run, and failures are collected per lease.
+- Invoice totals are sums of line subtotal and tax values; tax rates are snapshotted onto each line.

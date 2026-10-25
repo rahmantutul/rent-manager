@@ -4,6 +4,7 @@ use App\Http\Controllers\AttachmentController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BuildingController;
 use App\Http\Controllers\InstallController;
+use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\LeaseController;
 use App\Http\Controllers\LookupController;
 use App\Http\Controllers\PropertyController;
@@ -35,6 +36,8 @@ Route::middleware('installed')->group(function () {
             Route::post('leases/{lease}/activate', [LeaseController::class, 'activate'])->name('leases.activate');
             Route::post('leases/{lease}/change-rent', [LeaseController::class, 'changeRent'])->name('leases.change-rent');
             Route::post('leases/{lease}/terminate', [LeaseController::class, 'terminate'])->name('leases.terminate');
+            Route::get('invoices', [InvoiceController::class, 'index'])->name('invoices.index');
+            Route::get('invoices/{invoice}', [InvoiceController::class, 'show'])->name('invoices.show');
             Route::resource('properties', PropertyController::class)->except(['show']);
             Route::get('properties/{property}', [PropertyController::class, 'show'])->name('properties.show');
             Route::get('properties/{property}/buildings/create', [BuildingController::class, 'create'])->name('buildings.create');

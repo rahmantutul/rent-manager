@@ -63,7 +63,7 @@ class Installation
             $this->connect($data);
             // Never adopt an existing application's database or overwrite its users.
             $tables = Schema::getTableListing(Schema::getCurrentSchemaListing(), schemaQualified: false);
-            $allowed = ['migrations', 'owners', 'users', 'settings', 'properties', 'buildings', 'units', 'charge_types', 'tax_rates', 'late_fee_rules', 'numbering_sequences', 'tenants', 'leases', 'lease_charges', 'lease_tenants', 'attachments', 'password_reset_tokens', 'sessions', 'cache', 'cache_locks', 'jobs', 'job_batches', 'failed_jobs'];
+            $allowed = ['migrations', 'owners', 'users', 'settings', 'properties', 'buildings', 'units', 'charge_types', 'tax_rates', 'late_fee_rules', 'numbering_sequences', 'tenants', 'leases', 'lease_charges', 'lease_tenants', 'attachments', 'invoices', 'invoice_lines', 'password_reset_tokens', 'sessions', 'cache', 'cache_locks', 'jobs', 'job_batches', 'failed_jobs'];
             foreach ($tables as $table) {
                 if (! in_array($table, $allowed, true)) {
                     throw ValidationException::withMessages(['db_database' => __('app.database_not_empty')]);

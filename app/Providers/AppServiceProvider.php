@@ -4,12 +4,14 @@ namespace App\Providers;
 
 use App\Enums\Role;
 use App\Models\Building;
+use App\Models\Invoice;
 use App\Models\Lease;
 use App\Models\Property;
 use App\Models\Tenant;
 use App\Models\Unit;
 use App\Models\User;
 use App\Policies\BuildingPolicy;
+use App\Policies\InvoicePolicy;
 use App\Policies\LeasePolicy;
 use App\Policies\PropertyPolicy;
 use App\Policies\TenantPolicy;
@@ -55,6 +57,7 @@ class AppServiceProvider extends ServiceProvider
         Gate::policy(Unit::class, UnitPolicy::class);
         Gate::policy(Tenant::class, TenantPolicy::class);
         Gate::policy(Lease::class, LeasePolicy::class);
+        Gate::policy(Invoice::class, InvoicePolicy::class);
         Gate::define('manage-owner-settings', fn (User $user) => $user->canSignIn() && $user->hasRole(Role::Owner));
         Gate::define('manage-global-branding', fn (User $user) => $user->canSignIn() && $user->hasRole(Role::SuperAdmin));
     }
