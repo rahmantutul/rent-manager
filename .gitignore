@@ -13,7 +13,10 @@
 /.zed
 /auth.json
 /node_modules
-/public/build
+/reference/
+/storage/installed.lock
+/storage/framework/install.*
+/storage/framework/branding.mutex
 /public/hot
 /public/storage
 /storage/*.key

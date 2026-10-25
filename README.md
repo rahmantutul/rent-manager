@@ -1,59 +1,56 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Rent & Building Manager
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Laravel 12, PHP 8.2+, Blade, Alpine.js. Phase 1 contains installation, authentication, owner scoping and settings only.
 
-## About Laravel
+## Local review
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+The verified development installation runs at http://127.0.0.1:8000/login.
+If its local server stops, run `php artisan serve --host=127.0.0.1 --port=8000` from the project root.
+Start XAMPP MySQL first. The browser verification database is `rent_manager_phase1_20261025`.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Local test accounts are `owner@rent-manager.test`, `manager@rent-manager.test`, `accountant@rent-manager.test`, `tenant@rent-manager.test` and `super_admin@rent-manager.test`.
+Their temporary password is supplied in the Phase Report in chat. These accounts exist only in the local verification database, not in migrations or seeders.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Fresh installation
 
-## Learning Laravel
+1. Use a separate deployment directory and an empty MySQL/MariaDB database.
+2. Run `composer install` for development, or include production vendor dependencies in the deployment.
+3. Point the web server document root at `public/`. Allow PHP to write `storage/`, `bootstrap/cache/` and the project .env file.
+4. Compiled `public/build/` assets are included. Buyers do not need Node.
+5. Open `/install`. Review requirements, enter database credentials, company/owner details, currency and optional SMTP settings.
+6. Submit. Failed database credentials do not write .env. Successful installation migrates the schema, creates the first owner, writes the lock, and redirects to login.
+7. Back up .env securely. The generated key protects encrypted data.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+Do not run migrate:fresh against an installed database that you want to keep. For a repeat installer check, use a separate fresh deployment/database. Removing an install lock does not permit replacing existing users.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## Permissions
 
-## Laravel Sponsors
+| Role | Landing | Settings |
+| --- | --- | --- |
+| owner | /admin | Own company, private logo, currency and regional preferences |
+| manager | /admin | No settings mutation |
+| accountant | /admin | No settings mutation |
+| tenant | /portal | Placeholder only; /admin returns 403 |
+| super_admin | /super-admin | Install-wide name, logo and primary colour |
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+Global branding is deliberately available on the public login screen. Owner logos require an authenticated user belonging to that owner.
+Only English is shipped; available languages are configured in config/product.php.
+The installer creates an owner account only. Additional accounts are created through trusted server-side provisioning in Phase 1; there is no user-management screen or public registration.
 
-### Premium Partners
+## Verification
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+```powershell
+composer install
+composer test
+php vendor/bin/pint --test
+php artisan test tests/MySql --group=mysql
+npm ci
+npm run build
+git diff --check
+rg -ni cheque app resources routes lang database config
+```
 
-## Contributing
+The default suite uses in-memory SQLite. The MySQL test is separate and requires a local database user able to create/drop its own randomly named test database. Configure MYSQL_TEST_HOST, MYSQL_TEST_PORT, MYSQL_TEST_USERNAME and MYSQL_TEST_PASSWORD if required; XAMPP localhost/root defaults are used otherwise. It never drops an existing database.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+No SMTP delivery, public deployment or older database-version compatibility test was performed. See docs/PHASE_1_REPORT.md and docs/DECISIONS.md.
 
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).

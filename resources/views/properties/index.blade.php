@@ -1,0 +1,7 @@
+@extends('layouts.admin')
+@section('title', __('app.properties'))
+@section('content')
+<div class="page-heading"><div><div class="eyebrow">{{ __('app.admin') }}</div><h1>{{ __('app.properties') }}</h1><p class="muted">{{ __('app.properties_intro') }}</p></div>@can('create', App\Models\Property::class)<a class="button" href="{{ route('admin.properties.create') }}">{{ __('app.add_property') }}</a>@endcan</div>
+<form class="search-row" method="get"><input name="search" value="{{ request('search') }}" placeholder="{{ __('app.search_properties') }}"><button>{{ __('app.search') }}</button></form>
+<div class="card table-wrap"><table><thead><tr><th>{{ __('app.name') }}</th><th>{{ __('app.code') }}</th><th>{{ __('app.type') }}</th><th>{{ __('app.buildings') }}</th><th>{{ __('app.units') }}</th><th>{{ __('app.vacant') }}</th><th></th></tr></thead><tbody>@forelse($properties as $property)<tr><td><a class="table-link" href="{{ route('admin.properties.show', $property) }}">{{ $property->name }}</a></td><td>{{ $property->code }}</td><td>{{ __('app.type_'.$property->type) }}</td><td>{{ $property->buildings_count }}</td><td>{{ $property->unit_count }}</td><td>{{ $property->vacant_count }}</td><td><a class="secondary button-small" href="{{ route('admin.properties.edit', $property) }}">{{ __('app.edit') }}</a></td></tr>@empty<tr><td colspan="7">{{ __('app.no_properties') }}</td></tr>@endforelse</tbody></table>{{ $properties->links() }}</div>
+@endsection
