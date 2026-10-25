@@ -7,7 +7,7 @@
     <style>:root { --primary: {{ config('product.primary_color') }}; }</style>
 </head>
 <body class="guest">
-    <main class="guest-wrap">
+    <main class="{{ request()->routeIs('install.*') ? 'guest-wrap guest-wrap-wide' : 'guest-wrap' }}">
         <a class="brand guest-brand" href="{{ route('home') }}">
             @if(config('product.logo_path'))<img src="{{ route('branding.logo', 'global') }}" alt="{{ config('app.product_name') }}">@else<span class="brand-mark" aria-hidden="true">▥</span>@endif
             <span>{{ config('app.product_name') }}</span>
@@ -17,4 +17,3 @@
     </main>
 </body>
 </html>
-
